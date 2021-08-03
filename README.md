@@ -1,8 +1,10 @@
-# OpenVINO simple inference with GNA demo  
+# OpenVINO simple inference demo with GNA unit  
 
 ### Description:  
 The `GNA` is a kind of low-power neural network accelerator which can be found in recent Intel CPUs.  `GNA` is an abbrebiation of **Gaussian Neural-network Accelerator**. The current `GNA` unit have very limited performance and capability but it is expected to grow in the future generations.    
 The DL model in this project only consists of `dense` (or `fully-connected`) layers and the output layer doesn't have `SoftMax` activation because `GNA` device doesn't support 2D convolution layers nor `softmax` activation. Due to that limitation, the model accuracy is not high but the purpose of this project is to demonstrate the **`GNA` in action**.  
+Please refer to the [GNA plugin guide](https://docs.openvinotoolkit.org/latest/openvino_docs_IE_DG_supported_plugins_GNA.html) for detail.  
+
 
 ![draw-and-infer](./resources/draw-and-infer.png)
 
@@ -76,7 +78,7 @@ python3 infer.py
 ```
 
 ### How to run `draw-and-infer.py` demo program  
-Here's a simple yet bit fun demo application for MNIST. You can draw number on the screen by mouse or finger-tip and you'll see the real-time inference result.  Right-click will clear the screen for another try.  
+Here's a simple yet bit fun demo application for MNIST. You can draw number on the screen by mouse or finger-tip and you'll see the real-time inference result.  Right-click will clear the screen for another try. This demo is also using OpenVINO and GNA for inferencing.  
 By default, `draw-and-infer.py` will use `./mnist-frozen-ir/mnist-frozen.xml` IR model to infer.  
 ```sh
 python3 draw-and-infer.py
