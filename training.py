@@ -70,12 +70,13 @@ def main():
 	print('*** Checkpoint saved : ', fn_ckpt)
 
 	# Saving entire model data (model+weight) in TF SavedModel format
-	fn_savedmodel='./savedmodel'
+	fn_savedmodel='savedmodel'
 	if os.path.exists(fn_savedmodel):
 		shutil.rmtree(fn_savedmodel)
 		print('*** Existing directory {} has been deleted'.format(fn_savedmodel))
 		time.sleep(1)     # 'permission denied' error may happen when this sleep(1) is not here. reason=unknown
-	keras.experimental.export_saved_model(model, fn_savedmodel)
+	model.save(fn_savedmodel, save_format='tf')
+	#tf.keras.model.save_model(fn_savedmodel, save_format='tf')
 	print('*** TF SavedModel saved :', fn_savedmodel)
 
 	# Check output node names
@@ -84,8 +85,8 @@ def main():
 	out_nodes = [ model.outputs[i].name[:model.outputs[i].name.find(':')] for i in range(num_output)]
 	print('*** Output node names :',out_nodes)
 	# Obtain TF session, replace variables with constant, and save the frozen TF model in protocol buffer format (.pb)
-	TFsess = keras.backend.get_session()
-	frozen_graph = graph_util.convert_variables_to_constants(TFsess, TFsess.graph.as_graph_def(), out_nodes)
+	TFsess = tf.compat.v1.keras.backend.get_session()
+	frozen_graph = tf.compat.v1.graph_util.convert_variables_to_constants(TFsess, TFsess.graph.as_graph_def(), out_nodes)
 	graph_io.write_graph(frozen_graph, '.', fn_fzpb, as_text=False)
 	print('*** {} saved'.format(fn_fzpb))
 
