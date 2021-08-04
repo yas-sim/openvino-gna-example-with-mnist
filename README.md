@@ -12,29 +12,9 @@ Please refer to the [GNA plugin guide](https://docs.openvinotoolkit.org/latest/o
 - TensorFlow 1.15  
 - OpenVINO 2021.4 (2021.x may work)  
 
-### How to download MNIST training and validation dataset  
-```sh
-mkdir -p MNIST_data
-cd MNIST_data
-curl -O http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz
-curl -O http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz
-curl -O http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz
-curl -O http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz
-gzip -d --keep *.gz
-cd ..
-```
-
-##### Expected MNIST dataset file structure  
-```sh
-MNIST_data/
-  + t10k-images-idx3-ubyte
-  + t10k-labels-idx1-ubyte
-  + train-images-idx3-ubyte
-  + train-labels-idx1-ubyte
-```
 
 ### How to train the model and create trained model files  
-You can train the model by just kicking the `training.py` script. `training.py` will save the trained model in 3 different formats. `frozen pb(.pb)`, `SavedModel`, and `Keras HDF5(.h5)`.
+You can train the model by just kicking the `training.py` script. `training.py` will use `keras.datasets.mnist` as the training and validation dataset and train the model, and then save the trained model in 3 different formats, `frozen pb(.pb)`, `SavedModel`, and `Keras HDF5(.h5)`.
 ```sh
 python3 training.py
 ```

@@ -2,6 +2,7 @@ import os
 import time
 import shutil
 
+from keras.datasets import mnist
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.python.framework import graph_util
@@ -10,17 +11,13 @@ from tensorflow.python.framework import graph_io
 import cv2
 import numpy as np
 
-def read_dataset(dataset_file, label_file):
-	with open(dataset_file, 'rb') as f:
-		dataset = np.frombuffer(f.read(), dtype=np.uint8, offset=16)
-		dataset = np.reshape(dataset, (-1, 28*28))
-	with open(label_file, 'rb') as f:
-		labels = np.frombuffer(f.read(), dtype=np.uint8, offset=8)
-	return dataset, labels
-
 def main():
-	train_images , train_labels  = read_dataset('./MNIST_data/train-images-idx3-ubyte', './MNIST_data/train-labels-idx1-ubyte') # Training dataset
-	test_images, test_labels = read_dataset('./MNIST_data/t10k-images-idx3-ubyte', './MNIST_data/t10k-labels-idx1-ubyte') # Validation dataset
+	# Prepare datasets (using keras.datasets.mnist)
+	(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+	train_images = train_images.reshape(-1, 28*28)
+	test_images = test_images.reshape(-1, 28*28)
+	train_labels = train_labels.astype(np.float32)
+	test_labels = test_labels.astype(np.float32)
 
 	'''
 	# Inspect integrity of training images and labels
