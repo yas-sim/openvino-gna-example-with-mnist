@@ -48,7 +48,7 @@ def main():
 
 	# Training the model
 	print('\n*** Start training...')
-	model.fit(train_images, train_labels_v, epochs=50)
+	model.fit(train_images, train_labels_v, epochs=10)
 
 	# Validate the model
 	print('\n*** Start validation...')

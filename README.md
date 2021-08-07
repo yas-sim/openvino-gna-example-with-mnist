@@ -9,7 +9,7 @@ Please refer to the [GNA plugin guide](https://docs.openvinotoolkit.org/latest/o
 ![draw-and-infer](./resources/draw-and-infer.png)
 
 ### Prerequisites:  
-- TensorFlow 1.15  
+- TensorFlow 2.4   
 - OpenVINO 2021.4 (2021.x may work)  
 
 
@@ -56,6 +56,6 @@ python3 draw-and-infer.py
 ```
 
 ### Test environment:
- - TF2.4, TF1.15
+ - TF2.4
  - Win10
  - OpenVINO 2021.4
