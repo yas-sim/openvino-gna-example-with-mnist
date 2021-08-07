@@ -24,35 +24,25 @@ python3 training.py
 
 - Frozen GraphDef PB to OpenVINO IR model   
 
-Linux  
-```sh
-python3 ${INTEL_OPENVINO_DIR}/deployment_tools/model_optimizer/mo.py \
-  --input_model mnist-frozen.pb \
-  -b 1 \
-  --output_dir mnist-frozen-ir \
-  --data_type FP16
-```
-Windows 10
-```sh
-python "%INTEL_OPENVINO_DIR%\deployment_tools\model_optimizer\mo.py" ^
-  --input_model mnist-frozen.pb ^
-  -b 1 ^
-  --output_dir mnist-frozen-ir ^
-  --data_type FP16
-```
-
 - SavedModel to OpenVINO IR model  
 
 ```sh
 python3 ${INTEL_CVSDK_DIR}/deployment_tools/model_optimizer/mo.py \
-  --saved_model_dir saved-model \
+  --saved_model_dir savedmodel \
   -b 1 \
   --output_dir savedmodel-ir \
   --data_type FP16
 ```
+```sh
+python "%INTEL_CVSDK_DIR%\deployment_tools\model_optimizer\mo.py" ^
+  --saved_model_dir savedmodel ^
+  -b 1 ^
+  --output_dir savedmodel-ir ^
+  --data_type FP16
+```
 
 ### How to infer with OpenVINO  
-By default, `infer.py` will use `./mnist-frozen-ir/mnist-frozen.xml` IR model to infer.  
+By default, `infer.py` will use `./mnist-savedmodel-ir/mnist-frozen.xml` IR model to infer.  
 ```sh
 python3 infer.py
 ```

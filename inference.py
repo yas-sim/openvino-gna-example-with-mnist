@@ -1,8 +1,8 @@
 import numpy as np
 from openvino.inference_engine import IECore
+from keras.datasets import mnist
 
-model = 'mnist-frozen-ir/mnist-frozen'
-#model = 'savedmodel-ir/saved_model'
+model = 'savedmodel-ir/saved_model'
 
 ie = IECore()
 net = ie.read_network(model=model+'.xml', weights=model+'.bin')
@@ -13,13 +13,14 @@ batch, w = net.input_info[input_name].tensor_desc.dims
 print('Input shape = ', net.input_info[input_name].tensor_desc.dims)
 exec_net = ie.load_network(network=net, device_name='GNA', num_requests=1)
 
-mnistLabels=np.frombuffer(open('MNIST_data/t10k-labels-idx1-ubyte','rb').read(), dtype=np.uint8, offset=8)
-mnistImages=np.frombuffer(open('MNIST_data/t10k-images-idx3-ubyte','rb').read(), dtype=np.uint8, offset=16).reshape(-1, 28*28)
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+train_images = train_images.reshape(-1, 28*28)
+test_images = test_images.reshape(-1, 28*28)
 
 right=0
 num=0
-for label, img in zip(mnistLabels, mnistImages):
-	img = img.astype(np.float32).reshape(1,28*28)
+for label, img in zip(test_labels, test_images):
+	img = img.astype(np.float32).reshape(1, 28*28)
 	img /= 255.0
 	result = exec_net.infer(inputs={input_name: img})
 	correct=label                                  # correct answer (label)

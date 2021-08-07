@@ -73,19 +73,7 @@ def main():
 		print('*** Existing directory {} has been deleted'.format(fn_savedmodel))
 		time.sleep(1)     # 'permission denied' error may happen when this sleep(1) is not here. reason=unknown
 	model.save(fn_savedmodel, save_format='tf')
-	#tf.keras.model.save_model(fn_savedmodel, save_format='tf')
 	print('*** TF SavedModel saved :', fn_savedmodel)
-
-	# Check output node names
-	fn_fzpb = 'mnist-frozen.pb'
-	num_output = len(model.output_names)
-	out_nodes = [ model.outputs[i].name[:model.outputs[i].name.find(':')] for i in range(num_output)]
-	print('*** Output node names :',out_nodes)
-	# Obtain TF session, replace variables with constant, and save the frozen TF model in protocol buffer format (.pb)
-	TFsess = tf.compat.v1.keras.backend.get_session()
-	frozen_graph = tf.compat.v1.graph_util.convert_variables_to_constants(TFsess, TFsess.graph.as_graph_def(), out_nodes)
-	graph_io.write_graph(frozen_graph, '.', fn_fzpb, as_text=False)
-	print('*** {} saved'.format(fn_fzpb))
 
 if __name__ == '__main__':
 	main()

@@ -3,8 +3,7 @@ import numpy as np
 
 from openvino.inference_engine import IENetwork, IECore
 
-model = 'mnist-frozen-ir/mnist-frozen'
-#model = 'savedmodel-ir/saved_model.xml'
+model = 'savedmodel-ir/saved_model'
 
 win_name = 'Draw and Infer'
 ratio = 20
