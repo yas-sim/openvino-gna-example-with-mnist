@@ -14,7 +14,7 @@ Please refer to the [GNA plugin guide](https://docs.openvinotoolkit.org/latest/o
 
 
 ### How to train the model and create trained model files  
-You can train the model by just kicking the `training.py` script. `training.py` will use `keras.datasets.mnist` as the training and validation dataset and train the model, and then save the trained model in 3 different formats, `frozen pb(.pb)`, `SavedModel`, and `Keras HDF5(.h5)`.
+You can train the model by just kicking the `training.py` script. `training.py` will use `keras.datasets.mnist` as the training and validation dataset and train the model, and then save the trained model in 2 different formats, `SavedModel` and `Keras HDF5(.h5)`.
 ```sh
 python3 training.py
 ```
@@ -22,11 +22,10 @@ python3 training.py
 ### How to convert a TF trained model into OpenVINO IR model format  
   Here's the way to convert the generated models into OpenVINO IR model format using `Model Optimizer` in OpenVINO. `Model Optimizer` doesn't support HDF5 format.   
 
-- Frozen GraphDef PB to OpenVINO IR model   
-
 - SavedModel to OpenVINO IR model  
 
 ```sh
+(Linux)
 python3 ${INTEL_CVSDK_DIR}/deployment_tools/model_optimizer/mo.py \
   --saved_model_dir savedmodel \
   -b 1 \
@@ -34,22 +33,29 @@ python3 ${INTEL_CVSDK_DIR}/deployment_tools/model_optimizer/mo.py \
   --data_type FP16
 ```
 ```sh
+(Win10)
 python "%INTEL_CVSDK_DIR%\deployment_tools\model_optimizer\mo.py" ^
   --saved_model_dir savedmodel ^
   -b 1 ^
   --output_dir savedmodel-ir ^
   --data_type FP16
 ```
+-> `./savedmodel-ir/saved_model.[bin|xml]` will be generated.
 
 ### How to infer with OpenVINO  
-By default, `infer.py` will use `./mnist-savedmodel-ir/mnist-frozen.xml` IR model to infer.  
+By default, `infer.py` will use `./mnist-savedmodel-ir/saved_model.xml` IR model to infer.  
 ```sh
 python3 infer.py
 ```
 
 ### How to run `draw-and-infer.py` demo program  
 Here's a simple yet bit fun demo application for MNIST. You can draw number on the screen by mouse or finger-tip and you'll see the real-time inference result.  Right-click will clear the screen for another try. This demo is also using OpenVINO and GNA for inferencing.  
-By default, `draw-and-infer.py` will use `./mnist-frozen-ir/mnist-frozen.xml` IR model to infer.  
+By default, `draw-and-infer.py` will use `./savedmodel-ir/saved_model.xml` IR model to infer.  
 ```sh
 python3 draw-and-infer.py
 ```
+
+### Test environment:
+ - TF2.4, TF1.15
+ - Win10
+ - OpenVINO 2021.4
